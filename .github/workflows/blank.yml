@@ -27,4 +27,3 @@ jobs:
             username: ${{secrets.DOCKER_USERNAME}}
             password: ${{secrets.DOCKER_TOKEN}}
             repository: ${{secrets.DOCKERHUB_REPO}}
-            tag_with_ref: true
