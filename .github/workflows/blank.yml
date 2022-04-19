@@ -10,34 +10,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Login Docker Hub
-        uses: docker/build-push-action@v1
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ secrets.DOCKERHUB_REPO }}
 
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        id: buildx
-
-      - name: Cache Docker Image Layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: Build and Push Docker Image
+      - name: Build and push
         uses: docker/build-push-action@v2
-        id: docker_build
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
+          context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/flask-helloworld
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          tags: user/app:latest
 
       - name: Verify
         run: echo ${{ steps.docker_build.outputs.digest }}
