@@ -1,0 +1,22 @@
+name: Auto deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }} #hostname of server
+          username: ${{ secrets.SSH_USERNAME }} #username login to server
+          password: ${{ secrets.SSH_SECRET_KEY }} #password login to server
+          port: ${{ secrets.SSH_PORT }} #port of server - often port is 22
+          script: | # run with multiple script
+            whoami
