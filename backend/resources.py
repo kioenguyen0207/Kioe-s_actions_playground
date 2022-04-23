@@ -9,3 +9,9 @@ class Relatives(Resource):
             return jsonify(relatives_json)
         except:
             return {'msg': "Something's happened"}, 500
+
+class TestJson(Resource):
+    def get(self):
+        return {
+            'msg': "updated using CI/CD"
+        }, 200
