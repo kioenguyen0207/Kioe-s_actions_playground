@@ -11,10 +11,12 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v2
-      - name: commands
-        uses: garygrossgarten/github-action-ssh@release
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
         with:
-          command: whoami
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          privateKey: ${{ secrets.SSH_SECRET_KEY }}
+          host: ${{ secrets.SSH_HOST }} #hostname of server
+          username: ${{ secrets.SSH_USERNAME }} #username login to server
+          key: ${{ secrets.SSH_SECRET_KEY }} #password login to server
+          port: 22 #port of server - often port is 22
+          script: | # run with multiple script
+            whoami
